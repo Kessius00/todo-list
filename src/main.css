@@ -1,0 +1,19 @@
+:root{
+    --white: #FFFFFF;
+    --yellow: #f9c80e;
+    --orange: #f86624;
+    --red: #ea3546;
+    --purple: #662e9b;
+
+
+
+
+}
+
+body{
+    background-color: var(--yellow);
+}
+
+#content{
+    display: grid;
+}
