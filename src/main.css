@@ -1,24 +1,22 @@
 :root{
     --white: #FFFFFF;
-    --yellow: #f9c80e;
-    --orange: #f86624;
-    --red: #ea3546;
-    --purple: #662e9b;
+    --yellow: #f9c60ed5;
+    --orange: #f867249c;
+    --red: #ea3547d8;
+    --purple: #562585;
 
-
-
+    font-family:Arial, Helvetica, sans-serif;
 
 }
 
 h1{
     font-size: 5em;
-    text-shadow:   2px 2px 0px var(--yellow), var(--orange) 4px 4px 0px, var(--red) 6px 6px 0px;
+    text-shadow:   4px 3px 0px var(--yellow), var(--orange) 6px 5px 0px, var(--red) 8px 7px 0px;
+    transition: text-shadow 2s;
 }
 
 h1:hover{
-
-    transition: text-shadow 2s .1s;
-    text-shadow: 1px 1px 0px var(--yellow), var(--orange) 2px 2px 0px, var(--red) 3px 3px 0px;
+    text-shadow: -4px -4px 0px var(--yellow), var(--orange) -7px -7px 0px, var(--red) -10px -10px 0px;
 }
 
 .header{
@@ -36,14 +34,20 @@ h1:hover{
 }
 
 #sidebar{
-    background-color: #f86624;
+    background-color: var(--orange);
     grid-row: 2/4;
+    border-right: 5px var(--red) solid;
+    -webkit-box-shadow: inset -12px -2px 42px -14px var(--red); 
+    box-shadow: inset -12px -2px 42px -14px var(--red);    
 
 }
 
 .project{
     font-size: 2.6em;
     padding: 10px;
+    text-shadow: var(--red) -2px -2px 0px;
+    
+
 }
 
 #projects{
@@ -61,5 +65,21 @@ body{
     width: 100vw;
     display: grid;
     grid-template-columns: max(230px,20%) 1fr;
-    grid-template-rows: 120px 1fr 30px;
+    grid-template-rows: 125px 1fr 30px;
+}
+
+.todo-item{
+    font-size: 2em;
+    font-weight: 700;
+    color:var(--purple);
+    text-shadow: var(--white) 2px 2px 3px;
+    padding:20px;
+    border: 5px var(--orange) solid;
+    border-radius: 4px;
+    margin-bottom: -5px;
+}
+
+#todo-item::before{
+    content:">";
+    margin: 5px 20px;
 }
