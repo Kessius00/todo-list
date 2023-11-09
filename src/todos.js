@@ -24,7 +24,7 @@ export default class ToDo{
 
 let thing = new ToDo("Wdw",new Date("2/2/2030"),new Date("2/1/2030"));
 
-console.log("deadlinecheck: "+thing.deadline()/(1000*24*60*60));
+// console.log("deadlinecheck: "+thing.deadline()/(1000*24*60*60));
 
 
 

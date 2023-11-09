@@ -1,17 +1,17 @@
 import "./reset.css";
-// import "./main.css";
-import "./cleaner.sass";
+import "./main.css";
+import "./cleaner.scss";
+import {appendTodoList, cleanList} from "./dommanipulation";
 import ToDo from "./todos";
 
 // const content = document.querySelector("#content");
-const dededede = new ToDo("clear room", "ded","De","d","dede");
-dededede.displayDetails()
+// const dededede = new ToDo("clear room", "ded","De","d","dede");
+// dededede.displayDetails()
 
 const todoList = document.querySelector("#todo-list");
 
-const newListItem = document.createElement("li");
-newListItem.classList.add("todo-item");
-newListItem.id = "todo-item";
-newListItem.textContent = "textext";
+cleanList(todoList);
 
-todoList.appendChild(newListItem);
+appendTodoList("Get groceries", todoList);
+appendTodoList("Add soup", todoList);
+appendTodoList("Get delivery", todoList);
