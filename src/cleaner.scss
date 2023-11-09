@@ -50,7 +50,7 @@ h1:hover{
 }
 
 button{
-    @extend %boxShadow;
+    // @extend %boxShadow;
 
 }
 
@@ -72,11 +72,15 @@ button:active{
 
 
 button.addNewProject{
+    position: fixed;
+    bottom: 0;
     @include buttonStyle(150px);
-    margin-bottom: 20px
+    margin: 20px
 }
 
 button.addNewTask{
+    position: fixed;
+    bottom: 0;
     @include buttonStyle(100px,50px);
     margin: 20px;
     
@@ -128,20 +132,54 @@ button.addNewTask{
 }
 
 .todo-item{
-    font-size: 2em;
-    font-weight: 700;
-    padding:20px;
+    width: 100%;
+
+    font-size: 1em;
+    padding:10px;
     border: 1px black solid;
     margin-bottom: -1px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 100px;
+    grid-template-rows: 1fr 1fr;
 }
 
-#todo-item::before{
-    content:">";
-    margin: 5px 20px;
+@mixin gridRowColumn($row-start:none, $row-end:none,$column-start:none, $column-end:none){
+    grid-row-start: $row-start;
+    grid-row-end: $row-end;
+    grid-column-start: $column-start;
+    grid-column-end: $column-end;
+}
+
+.taskTitle{
+    @include gridRowColumn(1, 3, 1, 2);
+
+}
+
+.dueDate{
+    @include gridRowColumn(1,span 1,3,span 1);
+}
+
+.taskPriority{
+    @include gridRowColumn(1,span 1,4,span 1);
+}
+
+
+.taskDescription{
+    @include gridRowColumn(2,span 1,1,span 2);
+    font-size:.6em;
+}
+
+.taskEditBtn{
+    @include gridRowColumn(2, 3, 4, 5);
 }
 
 #todo-container{
-    @include displayFlex(space-between, start);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
     flex-direction: column;
 }
 

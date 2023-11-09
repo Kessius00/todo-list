@@ -10,7 +10,7 @@ import ToDo from "./todos";
 
 const todoList = document.querySelector("#todo-list");
 
-cleanList(todoList);
+// cleanList(todoList);
 
 
 // function keyPressed()
@@ -28,7 +28,7 @@ cleanList(todoList);
 // }
 
 
-appendTodoList("Get groceries and walk the dog on the way to the vet where I would like to work at someday", todoList);
-appendTodoList("Add soup", todoList);
-appendTodoList("Get delivery", todoList);
+// appendTodoList("Get groceries and walk the dog on the way to the vet where I would like to work at someday", todoList);
+// appendTodoList("Add soup", todoList);
+// appendTodoList("Get delivery", todoList);
 
