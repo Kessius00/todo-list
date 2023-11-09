@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo</title>
+    <script>
+
+function openForm(){
+    const popupForm = document.querySelector(".form-popup");
+    popupForm.style.display = "block";
+
+
+}
+
+
+function closeForm(){
+    const popupForm = document.querySelector(".form-popup");
+    popupForm.style.display = "none";
+
+}
+    </script>
 </head>
 <body>
     <div id="content">
@@ -22,7 +38,42 @@
         <div id="todo-container" class="todo-container">
             <ul class="todo-list" id="todo-list">
             </ul>
-            <button class="addNewTask">+ task</button>
+            <button class="addNewTask" onclick="openForm()">+ task</button>
+        </div>
+
+
+        <!-- The popup-form -->
+        <div class="form-popup" id="myForm">
+            <form class="form-container">
+            <h2>New task</h2>
+            <div class="titleForm">
+                <label for="title"><b>title</b></label>
+                <input type="text" maxlength="45" placeholder="task title" name="title">
+            </div>
+            
+            <div class="formDescription">
+                <label for="description"><b>description</b></label>
+                <textarea name="description" rows="10" cols="30" style="resize: none;"></textarea>
+            </div>
+
+            <div class="formDeadline">
+                <label for="duedate">deadline date</label>
+                <input type="date" id="duedate" name="duedate" min="2023-11-09" max="2200-12-31" />
+            </div>
+
+            <div class="formPriority">
+                <p>priority</p>
+                <div>
+                    <button class="priority">1</button><button class="priority">2</button><button class="priority">3</button><button class="priority">4</button><button class="priority">5</button>
+                </div>
+            </div>
+
+
+            <div class="formButtons">
+                <button type="submit" class="btn">Add task</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </div>
+            </form>
         </div>
     </div>
 </body>

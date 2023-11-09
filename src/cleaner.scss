@@ -50,7 +50,7 @@ h1:hover{
 }
 
 button{
-    // @extend %boxShadow;
+    @extend %boxShadow;
 
 }
 
@@ -68,6 +68,10 @@ button:hover{
 
 button:active{
     color: $whiter-grey;
+}
+
+button.taskEditBtn{
+    @include buttonStyle(100px, 50px)
 }
 
 
@@ -132,15 +136,16 @@ button.addNewTask{
 }
 
 .todo-item{
-    width: 100%;
+    width: auto;
+    height: 100px;
 
     font-size: 1em;
-    padding:10px;
+    padding:20px;
     border: 1px black solid;
     margin-bottom: -1px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 100px;
+    grid-template-columns: 1fr 1fr 1fr 150px;
     grid-template-rows: 1fr 1fr;
 }
 
@@ -149,29 +154,37 @@ button.addNewTask{
     grid-row-end: $row-end;
     grid-column-start: $column-start;
     grid-column-end: $column-end;
+    align-self: center;
 }
 
 .taskTitle{
     @include gridRowColumn(1, 3, 1, 2);
+    font-size: 2em;
+    align-self:flex-start;
 
 }
 
 .dueDate{
     @include gridRowColumn(1,span 1,3,span 1);
+    font-size: 1.2em;
 }
 
 .taskPriority{
     @include gridRowColumn(1,span 1,4,span 1);
+    font-size: 1.2em;
 }
 
 
 .taskDescription{
     @include gridRowColumn(2,span 1,1,span 2);
-    font-size:.6em;
 }
 
 .taskEditBtn{
     @include gridRowColumn(2, 3, 4, 5);
+}
+
+.finished{
+    text-decoration-line: line-through;
 }
 
 #todo-container{
@@ -183,3 +196,60 @@ button.addNewTask{
     flex-direction: column;
 }
 
+
+
+
+
+
+.form-popup{
+    // display: none;
+    height: 500px;
+    width: max(400px,30%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    border: black solid 10px;
+    background-color: white
+
+}
+
+
+.form-container{
+    @include displayFlex(space-between, flex-start);
+    flex-direction: column;
+    gap: 2px;
+}
+
+.form-container{
+    * {
+        font-size: 1.1em;
+        width: 100%;
+        @include displayFlex(center, flex-start);
+        flex-direction: column;
+        margin: 1px;
+    }
+    h2{
+        font-size: 1.7em;
+    }
+}
+
+.formPriority div{
+    display: flex;
+    flex-direction: row;
+}
+
+.formButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.formButtons .btn{
+    width: 150px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

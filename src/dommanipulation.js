@@ -32,12 +32,12 @@ function createNewTask(title, description, dueDate, priority, timeLeft = false){
     //deadline creation
     const taskDueDate = document.createElement("div");
     taskDueDate.classList.add("dueDate");
-    taskDueDate.textContent = dueDate;
+    taskDueDate.textContent = "due date: " + dueDate;
 
     //priority creation
     const taskPriority = document.createElement("div");
     taskPriority.classList.add("taskPriority");
-    taskPriority.textContent = priority;
+    taskPriority.textContent = "priority: " + priority;
 
 
     //edit button creation
@@ -64,7 +64,7 @@ function createNewTask(title, description, dueDate, priority, timeLeft = false){
 //     toDos.appendChild(newListItem);
 // }
 
-todoList.appendChild(createNewTask("Things", "I'd like to change the world etcetera and stuff", "23/23/2323", 4));
+todoList.appendChild(createNewTask("Things", "I'd ddddddlike tddddddo chdddddddange tdddddddhe dfd dof jdfoj dofj d fojdfojdfjdo fjdoj dofj do jdo jfdo jdojfd fdof jdo fjwdddddorld etcetera and stuff", "23/23/2323", 4));
 
 
 export function cleanList(toDos=todoList){
