@@ -12,6 +12,23 @@ const todoList = document.querySelector("#todo-list");
 
 cleanList(todoList);
 
-appendTodoList("Get groceries", todoList);
+
+// function keyPressed()
+
+// function addNewToDos(){
+//     while (true){
+//         //Write todos until
+
+//         if (keyPressed("Enter")){
+//             continue
+//         } else if (keyPressed("shift-Enter")){
+//             break
+//         }
+//     }
+// }
+
+
+appendTodoList("Get groceries and walk the dog on the way to the vet where I would like to work at someday", todoList);
 appendTodoList("Add soup", todoList);
 appendTodoList("Get delivery", todoList);
+
