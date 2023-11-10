@@ -5,20 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo</title>
     <script>
+    // put these here because the javascript of the is after all the html is
+    function openForm(){
+        const popupForm = document.querySelector(".form-popup");
+        popupForm.style.display = "block";
+    }
 
-function openForm(){
-    const popupForm = document.querySelector(".form-popup");
-    popupForm.style.display = "block";
-
-
-}
-
-
-function closeForm(){
-    const popupForm = document.querySelector(".form-popup");
-    popupForm.style.display = "none";
-
-}
+    function closeForm(){
+        const popupForm = document.querySelector(".form-popup");
+        popupForm.style.display = "none";
+        document.getElementById("myForm").reset();
+    }
     </script>
 </head>
 <body>
@@ -43,35 +40,50 @@ function closeForm(){
 
 
         <!-- The popup-form -->
-        <div class="form-popup" id="myForm">
-            <form class="form-container">
-            <h2>New task</h2>
+        <div class="form-popup" id="popupform">
+            <form class="form-container" id="myForm">
+            <h2 style="font-weight: 900;">New task</h2>
             <div class="titleForm">
                 <label for="title"><b>title</b></label>
-                <input type="text" maxlength="45" placeholder="task title" name="title">
+                <input type="text" id="titleInputField" maxlength="45" placeholder="task title" name="title" >
             </div>
             
             <div class="formDescription">
                 <label for="description"><b>description</b></label>
-                <textarea name="description" rows="10" cols="30" style="resize: none;"></textarea>
+                <textarea name="description" id="descriptionInputField" rows="10" cols="30" placeholder="so a more detailed description..." style="resize: none;"></textarea>
             </div>
 
             <div class="formDeadline">
+                <!-- Unfortunately can't change date format to dd/mm/yyyy -->
                 <label for="duedate">deadline date</label>
-                <input type="date" id="duedate" name="duedate" min="2023-11-09" max="2200-12-31" />
+                <input type="date" id="due-date" name="duedate" min="2023-11-09" max="2200-12-31" />
             </div>
 
             <div class="formPriority">
-                <p>priority</p>
-                <div>
-                    <button class="priority">1</button><button class="priority">2</button><button class="priority">3</button><button class="priority">4</button><button class="priority">5</button>
-                </div>
+                <fieldset>
+                    <legend>priority</legend>
+                  
+                    <div>
+                      <input type="radio" id="radioOne" name="radioOne" value="1" />
+                      <label for="radioOne">1</label>
+                    </div>
+                  
+                    <div>
+                      <input type="radio" id="radioTwo" name="radioTwo" value="2" checked />
+                      <label for="radioTwo">2</label>
+                    </div>
+                  
+                    <div>
+                      <input type="radio" id="radioThree" name="radioThree" value="3" />
+                      <label for="radioThree">3</label>
+                    </div>
+                </fieldset>
             </div>
 
 
             <div class="formButtons">
                 <button type="submit" class="btn">Add task</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
             </div>
             </form>
         </div>

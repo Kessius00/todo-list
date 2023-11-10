@@ -14,7 +14,7 @@ function formatTime(date, showTime = false){
     
 }
 
-function createNewTask(title, description, dueDate, priority, timeLeft = false){
+export function createNewTask(title, description, dueDate, priority, timeLeft = false){
     const newListItem = document.createElement("li");
     newListItem.classList.add("todo-item");
     newListItem.id = "todo-item";
@@ -56,15 +56,7 @@ function createNewTask(title, description, dueDate, priority, timeLeft = false){
     
 }
 
-// export function appendTodoList(text, toDos=todoList){
-//     //Adds a new li element with class & id todo-item to list with text as first parameter    
-//     const newListItem = createNewTask(text)
 
-
-//     toDos.appendChild(newListItem);
-// }
-
-todoList.appendChild(createNewTask("Things", "I'd ddddddlike tddddddo chdddddddange tdddddddhe dfd dof jdfoj dofj d fojdfojdfjdo fjdoj dofj do jdo jfdo jdojfd fdof jdo fjwdddddorld etcetera and stuff", "23/23/2323", 4));
 
 
 export function cleanList(toDos=todoList){
