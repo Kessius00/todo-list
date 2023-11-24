@@ -1,5 +1,5 @@
 
-const todoList = document.querySelector("#todo-list");
+
 
 
 function formatTime(date, showTime = false){
@@ -56,10 +56,7 @@ export function createNewTask(title, description, dueDate, priority, timeLeft = 
     
 }
 
-
-
-
-export function cleanList(toDos=todoList){
+export function cleanList(toDos){
     //fully removes all childElements from parentList
     while (toDos.children.length>0){
         toDos.removeChild(toDos.children[0]);
@@ -69,3 +66,7 @@ export function cleanList(toDos=todoList){
 }
 
 
+export function assignTaskToElement(taskObject){
+    const taskElement = createNewTask(taskObject.title, taskObject.description, taskObject.dueDate, taskObject.priority);
+    return taskElement
+}

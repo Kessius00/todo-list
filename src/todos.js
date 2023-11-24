@@ -1,6 +1,6 @@
 
 
-export default class Task{
+export class Task{
     constructor(title, description, dueDate, priority){
         this.title = title;
         this.description = description;
@@ -9,6 +9,12 @@ export default class Task{
     }
 }
 
+export class TodoList{
+    constructor(projectName, projectListArray){
+        this.projectName = projectName;
+        this.projectListArray = projectListArray;
+    }
+}
 
 
 

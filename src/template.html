@@ -30,7 +30,20 @@
                 <li class="project" id="project">Work</li>
                 <li class="project" id="project">School</li>
             </ul>
+            
+            <!-- <div class="popUpProject">
+                <div class="titleProject">
+                    <label for="titleProject">title of new project</label>
+                    <input type="text" id="titleProject" placeholder="project-title..">
+                </div>
+
+                <div>
+                    <button class="EnterProjectBtn">Enter</button>
+                    <button class="CancelProjectBtn">Cancel</button>
+                </div>
+            </div> -->
             <button class="addNewProject">+ project</button>
+            
         </div>
         <div id="todo-container" class="todo-container">
             <ul class="todo-list" id="todo-list">
@@ -45,7 +58,7 @@
             <h2 style="font-weight: 900;">New task</h2>
             <div class="titleForm">
                 <label for="title"><b>title</b></label>
-                <input type="text" id="titleInputField" maxlength="45" placeholder="task title" name="title" >
+                <input type="text" id="titleInputField" maxlength="45" placeholder="task title" name="title">
             </div>
             
             <div class="formDescription">
@@ -64,17 +77,17 @@
                     <legend>priority</legend>
                   
                     <div>
-                      <input type="radio" id="radioOne" name="radioOne" value="1" />
+                      <input type="radio" id="radioOne" name="priority" value="1" />
                       <label for="radioOne">1</label>
                     </div>
                   
                     <div>
-                      <input type="radio" id="radioTwo" name="radioTwo" value="2" checked />
+                      <input type="radio" id="radioTwo" name="priority" value="2" checked />
                       <label for="radioTwo">2</label>
                     </div>
                   
                     <div>
-                      <input type="radio" id="radioThree" name="radioThree" value="3" />
+                      <input type="radio" id="radioThree" name="priority" value="3" />
                       <label for="radioThree">3</label>
                     </div>
                 </fieldset>
