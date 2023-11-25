@@ -9,21 +9,64 @@ const todoListHTMLref = document.querySelector("#todo-list");
 const submitBtn = document.querySelector("button[type='submit']");
 const projectsHTMLref = document.querySelector("#projects");
 let activeProject = document.querySelector(".active");
+let projectInstancesHTMLref = document.querySelectorAll("#project");
+
+
+
+projectInstancesHTMLref.forEach((element)=>{
+    element.addEventListener("click",(e)=>{
+
+        let projectInstanceHTMLref = e.target;
+
+        if ( !projectInstanceHTMLref.classList.contains("active") ){
+
+            for ( let projHTML of projectInstancesHTMLref ){
+
+                if (projHTML.classList.contains("active")){
+                    projHTML.classList.remove("active");
+                }
+
+            }
+
+            projectInstanceHTMLref.classList.add("active");
+            activeProject = projectInstanceHTMLref;
+
+            fillRelevantProjectTasks()
+            
+
+        }
+    });
+});
+
 
 //Make 3 projectLists
 let homeProjectList = new TodoList("home",[]);
 let workProjectList = new TodoList("work",[]);
 
+
+
 let projects = [homeProjectList, workProjectList];
 
+function fillRelevantProjectTasks(){
+    //make the tasklist empty and fill with the new project
+    cleanList(todoListHTMLref);
+    //for alle projects object instances in de array projects
+    for (let proj of projects){
+        //zorg dat we de active project selecteren in array project om deze array te manipuleren
+        if (proj.projectName.toUpperCase() == activeProject.textContent.toUpperCase()){
+            //voeg alle taken in actieve project toe aan HTML doc
+            for (let task of proj.projectListArray){
+                todoListHTMLref.appendChild(task);
+            }
+        }
 
-// projectBtn.addEventListener("click"){
-//     // make this project active and change basic todoList in HTML to this object array (containing the elements)
-// }
-
+    }
+}
 
 submitBtn.addEventListener('click', (e)=>{
     e.preventDefault();
+
+
     const titleInput = document.getElementById("titleInputField").value;
     const descriptionInput = document.getElementById("descriptionInputField").value;
     const dueDateInput = document.getElementById("due-date").value;
@@ -53,9 +96,8 @@ submitBtn.addEventListener('click', (e)=>{
         }
 
     }
-    
-    //clean the HTML basic todoList
-    cleanList(todoListHTMLref);
+
+    fillRelevantProjectTasks()
 
 
     //clean storage to fill it in with the projects array, containing the project object instances
@@ -63,17 +105,7 @@ submitBtn.addEventListener('click', (e)=>{
     placeInStorage(projects);
     console.log(retrieveStorageList())
 
-    //for alle projects object instances in de array projects
-    for (let proj of projects){
-        //zorg dat we de active project selecteren in array project om deze array te manipuleren
-        if (proj.projectName.toUpperCase() == activeProject.textContent.toUpperCase()){
-            //voeg alle taken in actieve project toe aan HTML doc
-            for (let task of proj.projectListArray){
-                todoListHTMLref.appendChild(task);
-            }
-        }
-
-    }
+    
 
 
    
