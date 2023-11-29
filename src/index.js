@@ -6,15 +6,10 @@ import {placeInStorage, retrieveStorageList} from "./localStorage";
 
 //All HTML references 
 const taskList = document.querySelector("ul#todo-list");
-
 const taskFormSubmitBtn = document.querySelector(".task-form-submit");
-
 const projectList = document.querySelector("#projects");
 let selectedProject = document.querySelector(".active");
-
 let projectInstancesHTMLref = document.querySelectorAll("#project");
-
-
 const taskTitleBtn = document.querySelector(".task-title button");
 
 
@@ -27,7 +22,18 @@ let workProjectList = new TodoList("work",[]);
 
 let projects = [homeProjectList, workProjectList];
 
+function projectObjectInHtml(){
+    for ( let proj of projects){
+        if ( selectedProject.textContent.toUpperCase() == proj.projectName.toUpperCase() ){
+            const currentProjectList = proj.projectListArray;
 
+            cleanList(taskList);
+            for (let task of currentProjectList){
+                taskList.appendChild(taskObjectToListElement(task));
+            }
+        }
+    }
+}
 
 
 projectInstancesHTMLref.forEach((element)=>{
@@ -47,7 +53,7 @@ projectInstancesHTMLref.forEach((element)=>{
 
             projectInstanceHTMLref.classList.add("active");
             selectedProject = projectInstanceHTMLref;
-
+            projectObjectInHtml();
             
             console.log(selectedProject);
         }
@@ -71,15 +77,21 @@ taskFormSubmitBtn.addEventListener('click', (e)=>{
     
     //make the object and append it to currently selected project
     const currentTask = new Task(titleInput, dueDateInput, priority );
-    
 
     for ( let proj of projects){
         if ( selectedProject.textContent.toUpperCase() == proj.projectName.toUpperCase() ){
+
+            //append taskObject to project
             proj.appendProjectList(currentTask);
         }
     }
 
+    projectObjectInHtml();
     
+    //clean storage to fill it in with the projects array, containing the project object instances
+    localStorage.clear();
+    placeInStorage(projects);
+    console.log(retrieveStorageList());
 
 
 
