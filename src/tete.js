@@ -1,19 +1,3 @@
-
-
-
-
-function formatTime(date, showTime = false){
-    if (!showTime){
-        return " " + date.getDate() + "/" +date.getMonth() + "/" +date.getFullYear()
-    } else {
-        if (date.getMinutes()<10){
-            return date.getHours()+":0"+date.getMinutes()+ " - " + date.getDate() + "/" +date.getMonth() + "/" +date.getFullYear()
-        }
-        return date.getHours()+":"+date.getMinutes()+ " - " + date.getDate() + "/" +date.getMonth() + "/" +date.getFullYear()
-    }
-    
-}
-
 export function createNewTask(title, description, dueDate, priority, timeLeft = false){
     const newListItem = document.createElement("li");
     newListItem.classList.add("todo-item");
@@ -25,14 +9,10 @@ export function createNewTask(title, description, dueDate, priority, timeLeft = 
 
     const taskTitleText = document.createElement("button");
     taskTitleText.textContent = title;
-    
 
     const titleEdit = document.createElement("input");
     titleEdit.type=Text;
-    titleEdit.value=title;
     titleEdit.classList.add("input-task-title");
-
-    // taskTitleText.addEventListener("click", changeTaskTitle(taskTitleText, titleEdit));
 
     taskTitle.appendChild(taskTitleText);
     taskTitle.appendChild(titleEdit);
@@ -47,9 +27,8 @@ export function createNewTask(title, description, dueDate, priority, timeLeft = 
     taskDescriptionText.textContent = description;
 
     const descriptionEdit = document.createElement("input");
-    descriptionEdit.type=Text;
-    descriptionEdit.value=description;
-    descriptionEdit.classList.add("input-task-description");
+    titleEdit.type=Text;
+    titleEdit.classList.add("input-task-description");
 
     taskDescription.appendChild(taskDescriptionText);
     taskDescription.appendChild(descriptionEdit);
@@ -82,16 +61,3 @@ export function createNewTask(title, description, dueDate, priority, timeLeft = 
     
 }
 
-
-export function cleanList(toDos){
-    //fully removes all childElements from parentList
-    while (toDos.children.length>0){
-        toDos.removeChild(toDos.children[0]);
-    }
-}
-
-
-export function assignTaskToElement(taskObject){
-    const taskElement = createNewTask(taskObject.title, taskObject.description, taskObject.dueDate, taskObject.priority);
-    return taskElement
-}
