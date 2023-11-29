@@ -45,26 +45,38 @@
             
         </div>
         <div id="todo-container" class="todo-container">
-            <ul class="todo-list" id="todo-list">
+            <ul class="todo-list" id="todo-list">  
+
+                <li class="task">
+                    <div class="task-start">
+                        <div class="close-task" style="border-radius: 10px; background-color: gray; width: 15px; height: 15px;"></div>
+                        <div class="task-title">
+                            <button class="task-title-btn">dededede</button>
+                            <input type="text" class="task-title-input" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <div class="task-date">
+                        <button class="task-date-btn"></button>
+                        <input type="date" name="task-date" id="task-date-input" style="display: none;">
+                    </div>
+                </li>
+
+
             </ul>
             <button class="addNewTask" onclick="openForm()">+ task</button>
         </div>
 
 
         <!-- The popup-form -->
-        <div class="form-popup" id="popupform">
+        <div class="form-popup" id="popupform" style="display: none;">
             <form class="form-container" id="myForm">
             <h2 style="font-weight: 900;">New task</h2>
             <div class="titleForm">
                 <label for="title"><b>title</b></label>
-                <input type="text" id="titleInputField" maxlength="45" placeholder="task title" name="title">
+                <input type="text" id="titleInputField" maxlength="45" placeholder="task title.." name="title">
             </div>
             
-            <div class="formDescription">
-                <label for="description"><b>description</b></label>
-                <textarea name="description" id="descriptionInputField" rows="10" cols="30" placeholder="so a more detailed description..." style="resize: none;"></textarea>
-            </div>
-
             <div class="formDeadline">
                 <!-- Unfortunately can't change date format to dd/mm/yyyy -->
                 <label for="duedate">deadline date</label>
@@ -77,24 +89,24 @@
                   
                     <div>
                       <input type="radio" id="radioOne" name="priority" value="1" />
-                      <label for="radioOne">1</label>
+                      <label for="radioOne">high</label>
                     </div>
                   
                     <div>
                       <input type="radio" id="radioTwo" name="priority" value="2" checked />
-                      <label for="radioTwo">2</label>
+                      <label for="radioTwo">medium</label>
                     </div>
                   
                     <div>
                       <input type="radio" id="radioThree" name="priority" value="3" />
-                      <label for="radioThree">3</label>
+                      <label for="radioThree">low</label>
                     </div>
                 </fieldset>
             </div>
 
 
             <div class="formButtons">
-                <button type="submit" class="btn">Add task</button>
+                <button type="submit" class="btn task-form-submit">Add task</button>
                 <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
             </div>
             </form>
