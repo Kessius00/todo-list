@@ -7,9 +7,10 @@ export class Task{
 }
 
 export class TodoList{
-    constructor(projectName, projectListArray){
+    constructor(projectName, projectListArray, projectActive){
         this.projectName = projectName;
         this.projectListArray = projectListArray;
+        this.projectActive = projectActive;
     }
 
     sortFunction(x,y){

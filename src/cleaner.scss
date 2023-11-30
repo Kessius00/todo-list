@@ -277,6 +277,11 @@ button.addNewTask{
 
 }
 
+.hidden{
+    display: none;
+}
+
+
 
 .form-container{
     @include displayFlex(space-between, flex-start);

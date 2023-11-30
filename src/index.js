@@ -10,14 +10,12 @@ const taskFormSubmitBtn = document.querySelector(".task-form-submit");
 const projectList = document.querySelector("#projects");
 let selectedProject = document.querySelector(".active");
 let projectInstancesHTMLref = document.querySelectorAll("#project");
-const taskTitleBtn = document.querySelector(".task-title button");
-
 
 
 
 //Make projectlist, containing project objects
-let homeProjectList = new TodoList("home",[]);
-let workProjectList = new TodoList("work",[]);
+let homeProjectList = new TodoList("home", [], true);
+let workProjectList = new TodoList("work", [], false);
 
 
 let projects = [homeProjectList, workProjectList];
@@ -25,6 +23,7 @@ let projects = [homeProjectList, workProjectList];
 function projectObjectInHtml(){
     for ( let proj of projects){
         if ( selectedProject.textContent.toUpperCase() == proj.projectName.toUpperCase() ){
+
             const currentProjectList = proj.projectListArray;
 
             cleanList(taskList);
@@ -61,6 +60,7 @@ projectInstancesHTMLref.forEach((element)=>{
 });
 
 
+
 taskFormSubmitBtn.addEventListener('click', (e)=>{
     e.preventDefault();
 
@@ -79,6 +79,9 @@ taskFormSubmitBtn.addEventListener('click', (e)=>{
     const currentTask = new Task(titleInput, dueDateInput, priority );
 
     for ( let proj of projects){
+
+        //HIER BEGINNEN MET DE VERANDERING IN ACTIVE PROJECTS KIEZEN
+
         if ( selectedProject.textContent.toUpperCase() == proj.projectName.toUpperCase() ){
 
             //append taskObject to project
@@ -87,7 +90,7 @@ taskFormSubmitBtn.addEventListener('click', (e)=>{
     }
 
     projectObjectInHtml();
-    
+
     //clean storage to fill it in with the projects array, containing the project object instances
     localStorage.clear();
     placeInStorage(projects);
@@ -96,5 +99,46 @@ taskFormSubmitBtn.addEventListener('click', (e)=>{
 
 
     closeForm();
+
+    const taskTitleBtnAll = document.querySelectorAll(".task-title-btn");
+    console.log(taskTitleBtnAll);
+
+    taskTitleBtnAll.forEach((element)=>{
+        element.addEventListener("click",()=>{
+            const currentTitle = element.textContent;
+            element.classList.add("hidden");
+            const inputElement = element.parentElement.children[1];
+            inputElement.value = currentTitle;
+            inputElement.classList.remove("hidden");
+            // inputElement.select();
+
+            console.log(element.parentElement)
+
+            const accept = element.parentElement.children[2];
+            accept.classList.remove("hidden");
+
+            // if enter is pressed or accept is clicked, remove input and accept and add new value to titlebtn
+
+            accept.addEventListener("click", ()=>{
+                element.textContent = inputElement.value;
+                element.classList.remove("hidden");
+
+                accept.classList.add("hidden");
+                inputElement.classList.add("hidden");
+
+                const newTaskTitle = element.textContent;
+
+                active
+
+
+
+                // update the projects array with objects to give new names
+            })
+
+
+
+        })
+    });
+
 });
 

@@ -37,13 +37,18 @@ export function taskObjectToListElement(taskObject){
 
     const taskTitleInput = document.createElement("input");
     taskTitleInput.type = 'text';
-    taskTitleInput.style.display = "none";
-    taskTitleInput.classList.add("task-title-input");
+    taskTitleInput.classList.add("task-title-input", "hidden");
+
+    const accept = document.createElement("button");
+    accept.textContent = "accept";
+    accept.classList.add("accept-btn", "hidden");
+
 
     taskTitleDiv.appendChild(taskTitleBtn);
     taskTitleDiv.appendChild(taskTitleInput);
+    taskTitleDiv.appendChild(accept);
 
-    taskStart.appendChild(taskTitleDiv)
+    taskStart.appendChild(taskTitleDiv);
 
 
     //date
@@ -56,8 +61,7 @@ export function taskObjectToListElement(taskObject){
 
     const taskDateInput = document.createElement("input");
     taskDateInput.type = 'date';
-    taskDateInput.style.display = "none";
-    taskDateInput.classList.add("task-date-input");
+    taskDateInput.classList.add("task-date-input", "hidden");
 
     taskDate.appendChild(taskDateBtn);
     taskDate.appendChild(taskDateInput);
