@@ -5,6 +5,7 @@ import {Task, TodoList} from "./todos";
 import {placeInStorage, retrieveStorageList} from "./localStorage";
 
 //All HTML references 
+const body = document.querySelector("body");
 const taskList = document.querySelector("ul#todo-list");
 const taskFormSubmitBtn = document.querySelector(".task-form-submit");
 const projectList = document.querySelector("#projects");
@@ -13,52 +14,145 @@ let projectInstancesHTMLref = document.querySelectorAll("#project");
 
 
 
-//Make projectlist, containing project objects
-let homeProjectList = new TodoList("home", [], true);
-let workProjectList = new TodoList("work", [], false);
+//Make project list, containing project objects
+let homeProjectList = new TodoList("Home", [], true);
+let workProjectList = new TodoList("Work", [], false);
 
 
 let projects = [homeProjectList, workProjectList];
+let activeProject = getActiveProject();
+console.log("current project: ",activeProject);
 
 function projectObjectInHtml(){
-    for ( let proj of projects){
-        if ( selectedProject.textContent.toUpperCase() == proj.projectName.toUpperCase() ){
+    const proj = getActiveProject();
+    const currentProjectList = proj.projectArray;
 
-            const currentProjectList = proj.projectListArray;
+    cleanList(taskList);
+    for (let task of currentProjectList){
+        taskList.appendChild(taskObjectToListElement(task));
+    }
+}
 
-            cleanList(taskList);
-            for (let task of currentProjectList){
-                taskList.appendChild(taskObjectToListElement(task));
-            }
+function getActiveProject(){
+    for (let proj of projects){
+        if (proj.projectActive){
+            return proj
+        };
+    };
+}
+
+function updateProjectInArray(updatedProject, projectArray=projects){
+    //update a project in the list by an updated project
+    for (let proj of projectArray){
+        if (updatedProject.projectName == proj.projectName){
+            //find the old version of the project in the list
+            let index = projectArray.indexOf(proj);
+
+            //replace the old version with the new version
+            projectArray[index] = updatedProject;
+            activeProject = updatedProject;
         }
     }
 }
 
+function deactivateAllProjects(){
+    for (let proj of projects){
+        proj.projectActive = false;
+    }
+}
+
+function updateStorage(){
+    //only changes the projects list in storage
+
+    //clean storage to fill it in with the projects array, containing the project object instances
+    localStorage.clear();
+
+    //place projects list in storage
+    placeInStorage(projects);
+
+    //monitoring
+    console.log("new storage projects list: ", retrieveStorageList());
+}
+
+function acceptTitle(element, inputElement, accept, currentTitle){
+    const newTaskTitle = inputElement.value;
+
+    //change clicked element (the titleButton) and make visible again
+    element.textContent = newTaskTitle;
+    element.classList.remove("hidden");
+
+    // hide the accept button and input element again
+    accept.classList.add("hidden");
+    inputElement.classList.add("hidden");
+
+    // update the projects array with objects to give new names
+    let updatedProject = activeProject
+    for (let task of updatedProject.projectArray){
+        if (task.title == currentTitle){
+            //get place of the task you are changing
+            const index = updatedProject.projectArray.indexOf(task);
+            //change task title
+            task.title = newTaskTitle;
+            //make new task into the updatedProject array
+            updatedProject.projectArray[index] = task;
+        }
+    }
+    //make the title change update in the projects list and in the activeProject variable
+    updateProjectInArray(updatedProject);
+
+    // update localStorage
+    updateStorage();
+}
 
 projectInstancesHTMLref.forEach((element)=>{
     element.addEventListener("click",(e)=>{
 
-        let projectInstanceHTMLref = e.target;
+        let clickedProject = e.target;
 
-        if ( !projectInstanceHTMLref.classList.contains("active") ){
+        //if the clickedProject isn't already active
+        if ( !clickedProject.classList.contains("active") ){
 
             for ( let projHTML of projectInstancesHTMLref ){
 
                 if (projHTML.classList.contains("active")){
+
+                    //make sure no active projects anywhere
+                    deactivateAllProjects();
                     projHTML.classList.remove("active");
                 }
 
             }
 
-            projectInstanceHTMLref.classList.add("active");
-            selectedProject = projectInstanceHTMLref;
+            const clickedProjectName = clickedProject.textContent;
+            for (let proj of projects){
+                if (proj.projectName == clickedProjectName){
+                    // change made 
+                    proj.projectActive = true;
+
+                    //change updated in array and in activeProject object
+                    updateProjectInArray(proj);
+                };
+            }
+
+
+            clickedProject.classList.add("active");
+            selectedProject = clickedProject;
             projectObjectInHtml();
             
-            console.log(selectedProject);
+            console.log("Change of project: ", activeProject);
         }
     });
 });
 
+
+function hoveringOverElement(element){
+    element.addEventListener("mouseover", (e)=>{
+        e.preventDefault();
+        return true
+    })
+    return false
+    
+}
 
 
 taskFormSubmitBtn.addEventListener('click', (e)=>{
@@ -78,67 +172,71 @@ taskFormSubmitBtn.addEventListener('click', (e)=>{
     //make the object and append it to currently selected project
     const currentTask = new Task(titleInput, dueDateInput, priority );
 
-    for ( let proj of projects){
+    const updatedProject = getActiveProject();
 
-        //HIER BEGINNEN MET DE VERANDERING IN ACTIVE PROJECTS KIEZEN
+    // append currentTask to updatedProject
+    updatedProject.appendProjectList(currentTask);
 
-        if ( selectedProject.textContent.toUpperCase() == proj.projectName.toUpperCase() ){
-
-            //append taskObject to project
-            proj.appendProjectList(currentTask);
-        }
-    }
+    // update global project to updatedProject
+    updateProjectInArray(updatedProject);
 
     projectObjectInHtml();
 
-    //clean storage to fill it in with the projects array, containing the project object instances
-    localStorage.clear();
-    placeInStorage(projects);
-    console.log(retrieveStorageList());
+    // update storage
+    updateStorage()
 
 
 
     closeForm();
-
+    //new HTML references
     const taskTitleBtnAll = document.querySelectorAll(".task-title-btn");
-    console.log(taskTitleBtnAll);
+    const taskDateBtnAll = document.querySelectorAll("task-date-btn");
 
     taskTitleBtnAll.forEach((element)=>{
         element.addEventListener("click",()=>{
+            // declare all HTML references in the task title div
             const currentTitle = element.textContent;
-            element.classList.add("hidden");
             const inputElement = element.parentElement.children[1];
+            const accept = element.parentElement.children[2];
+
+            element.classList.add("hidden");
+
+            //change input element visibility and focus on it
             inputElement.value = currentTitle;
             inputElement.classList.remove("hidden");
-            // inputElement.select();
+            inputElement.focus();
 
-            console.log(element.parentElement)
-
-            const accept = element.parentElement.children[2];
+            // change the accept button visibility
             accept.classList.remove("hidden");
 
-            // if enter is pressed or accept is clicked, remove input and accept and add new value to titlebtn
+            // if enter is pressed or accept is clicked, remove input and accept and add new value to title btn
 
+            // if accept button is clicked
             accept.addEventListener("click", ()=>{
-                element.textContent = inputElement.value;
-                element.classList.remove("hidden");
+                acceptTitle(element, inputElement, accept, currentTitle);
+            });
 
-                accept.classList.add("hidden");
-                inputElement.classList.add("hidden");
+            // if user focuses on anything other than inputElement
+            inputElement.addEventListener("blur", ()=>{
+                acceptTitle(element, inputElement, accept, currentTitle);
+            });
 
-                const newTaskTitle = element.textContent;
+            // if enter is pressed
+            inputElement.addEventListener("keydown", (e)=>{
+                if (e.key=== "Enter"){
+                    acceptTitle(element, inputElement, accept, currentTitle);
+                }
+            });
 
-                active
+         
 
-
-
-                // update the projects array with objects to give new names
-            })
 
 
 
         })
     });
+
+
 
 });
 

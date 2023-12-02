@@ -7,9 +7,9 @@ export class Task{
 }
 
 export class TodoList{
-    constructor(projectName, projectListArray, projectActive){
+    constructor(projectName, projectArray, projectActive){
         this.projectName = projectName;
-        this.projectListArray = projectListArray;
+        this.projectArray = projectArray;
         this.projectActive = projectActive;
     }
 
@@ -24,17 +24,14 @@ export class TodoList{
     }
 
     sortProjectList(){
-        this.projectListArray.sort(this.sortFunction);
+        this.projectArray.sort(this.sortFunction);
     }
 
     appendProjectList(taskObject){
-        this.projectListArray.push(taskObject);
+        this.projectArray.push(taskObject);
         this.sortProjectList();
     }
 }
-
-
-
 
 
 
