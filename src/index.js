@@ -2,7 +2,7 @@ import "./reset.css";
 import "./cleaner.scss";
 import {appendTodoList, cleanList, taskObjectToListElement, assignTaskToElement} from "./dommanipulation";
 import {Task, TodoList} from "./todos";
-import {placeInStorage, retrieveStorageList} from "./localStorage";
+import {placeInStorage, retrieveStorageList, updateStorage} from "./localStorage";
 
 //All HTML references 
 const body = document.querySelector("body");
@@ -17,7 +17,6 @@ let projectInstancesHTMLref = document.querySelectorAll("#project");
 //Make project list, containing project objects
 let homeProjectList = new TodoList("Home", [], true);
 let workProjectList = new TodoList("Work", [], false);
-
 
 let projects = [homeProjectList, workProjectList];
 let activeProject = getActiveProject();
@@ -61,20 +60,9 @@ function deactivateAllProjects(){
     }
 }
 
-function updateStorage(){
-    //only changes the projects list in storage
 
-    //clean storage to fill it in with the projects array, containing the project object instances
-    localStorage.clear();
 
-    //place projects list in storage
-    placeInStorage(projects);
-
-    //monitoring
-    console.log("new storage projects list: ", retrieveStorageList());
-}
-
-function acceptTitle(element, inputElement, accept, currentTitle){
+function acceptTaskTitleEdit(element, inputElement, accept, currentTitle){
     const newTaskTitle = inputElement.value;
 
     //change clicked element (the titleButton) and make visible again
@@ -101,12 +89,85 @@ function acceptTitle(element, inputElement, accept, currentTitle){
     updateProjectInArray(updatedProject);
 
     // update localStorage
-    updateStorage();
+    updateStorage(projects);
+
+}
+function taskBtnEvents(){
+    //new HTML references
+    const taskTitleBtnAll = document.querySelectorAll(".task-title-btn");
+    const taskDateBtnAll = document.querySelectorAll(".task-date-btn");
+
+    taskTitleBtnAll.forEach((element)=>{
+        element.addEventListener("click",()=>{
+            // declare all HTML references in the task title div
+            const currentTitle = element.textContent;
+            const inputElement = element.parentElement.children[1];
+            const accept = element.parentElement.children[2];
+
+            element.classList.add("hidden");
+
+            //change input element visibility and focus on it
+            inputElement.value = currentTitle;
+            inputElement.classList.remove("hidden");
+            inputElement.focus();
+
+            // change the accept button visibility
+            accept.classList.remove("hidden");
+
+            // if enter is pressed or accept is clicked, remove input and accept and add new value to title btn
+
+            // if accept button is clicked
+
+            //DOIET HET NIET GOED
+            accept.addEventListener("click", (e)=>{
+                
+                acceptTaskTitleEdit(element, inputElement, accept, currentTitle);
+            });
+
+            // if user focuses on anything other than inputElement
+            inputElement.addEventListener("focusout", (e)=>{
+                
+                acceptTaskTitleEdit(element, inputElement, accept, currentTitle);
+                
+            });
+
+            // if enter is pressed
+            inputElement.addEventListener("keydown", (e)=>{
+                if (e.key=== "Enter"){
+                    
+                    acceptTaskTitleEdit(element, inputElement, accept, currentTitle);
+                }
+            });
+            
+
+            // weird thing: everytime you click, the times new storage projects list shows up increments. fix this
+
+            // it depends on the button clicked. if i click btn 1 three times, i get four messages next, but 1 if i click btn 2
+         
+
+
+
+
+        });
+    });
+
+    taskDateBtnAll.forEach((element)=>{
+        element.addEventListener("click", ()=>{
+            // make date button dissapear
+
+            //make edit date values to date button values
+
+            //make edit date input appear
+
+            //make accept button appear
+
+            //
+        });
+    });
 }
 
 projectInstancesHTMLref.forEach((element)=>{
     element.addEventListener("click",(e)=>{
-
         let clickedProject = e.target;
 
         //if the clickedProject isn't already active
@@ -138,21 +199,16 @@ projectInstancesHTMLref.forEach((element)=>{
             clickedProject.classList.add("active");
             selectedProject = clickedProject;
             projectObjectInHtml();
+
+            //task buttons should be interact-able 
+            taskBtnEvents();
             
             console.log("Change of project: ", activeProject);
         }
+
+        
     });
 });
-
-
-function hoveringOverElement(element){
-    element.addEventListener("mouseover", (e)=>{
-        e.preventDefault();
-        return true
-    })
-    return false
-    
-}
 
 
 taskFormSubmitBtn.addEventListener('click', (e)=>{
@@ -183,59 +239,11 @@ taskFormSubmitBtn.addEventListener('click', (e)=>{
     projectObjectInHtml();
 
     // update storage
-    updateStorage()
-
-
+    updateStorage(projects);
 
     closeForm();
-    //new HTML references
-    const taskTitleBtnAll = document.querySelectorAll(".task-title-btn");
-    const taskDateBtnAll = document.querySelectorAll("task-date-btn");
-
-    taskTitleBtnAll.forEach((element)=>{
-        element.addEventListener("click",()=>{
-            // declare all HTML references in the task title div
-            const currentTitle = element.textContent;
-            const inputElement = element.parentElement.children[1];
-            const accept = element.parentElement.children[2];
-
-            element.classList.add("hidden");
-
-            //change input element visibility and focus on it
-            inputElement.value = currentTitle;
-            inputElement.classList.remove("hidden");
-            inputElement.focus();
-
-            // change the accept button visibility
-            accept.classList.remove("hidden");
-
-            // if enter is pressed or accept is clicked, remove input and accept and add new value to title btn
-
-            // if accept button is clicked
-            accept.addEventListener("click", ()=>{
-                acceptTitle(element, inputElement, accept, currentTitle);
-            });
-
-            // if user focuses on anything other than inputElement
-            inputElement.addEventListener("blur", ()=>{
-                acceptTitle(element, inputElement, accept, currentTitle);
-            });
-
-            // if enter is pressed
-            inputElement.addEventListener("keydown", (e)=>{
-                if (e.key=== "Enter"){
-                    acceptTitle(element, inputElement, accept, currentTitle);
-                }
-            });
-
-         
-
-
-
-
-        })
-    });
-
+    
+    taskBtnEvents();
 
 
 });
