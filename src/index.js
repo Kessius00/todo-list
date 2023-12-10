@@ -11,6 +11,12 @@ const taskFormSubmitBtn = document.querySelector(".task-form-submit");
 const projectList = document.querySelector("#projects");
 let selectedProject = document.querySelector(".active");
 let projectInstancesHTMLref = document.querySelectorAll("#project");
+const projectPopUpForm = document.querySelector(".popUpProject");
+
+const enterProjectBtn = document.querySelector(".EnterProjectBtn");
+const cancelProjectBtn = document.querySelector(".CancelProjectBtn");
+
+
 
 
 
@@ -19,9 +25,138 @@ let homeProjectList = new TodoList("Home", [], true);
 let workProjectList = new TodoList("Work", [], false);
 
 let projects = [homeProjectList, workProjectList];
+
+fillProjectList();
 let activeProject = getActiveProject();
 console.log("current project: ",activeProject);
 
+//projectBtn changes
+const openProjectForm = document.querySelector("button.addNewProject");
+console.log(" heurhfeh",projectInstancesHTMLref);
+
+
+openProjectForm.addEventListener("click", ()=>{
+
+    // openForm
+    projectPopUpForm.classList.remove("hidden");
+
+    // remove the <button class="addNewProject">+ project</button> 
+    openProjectForm.classList.add("hidden");
+
+
+});
+
+enterProjectBtn.addEventListener("click",(e)=>{
+    e.preventDefault();
+    //get form details
+    const projectTitle = document.getElementById("titleProject").value;
+
+    console.log(projectTitle);
+    // validation check for if title and date are empty
+    if (projectTitle ==""){
+        alert("A title of the task must be written!");
+        return
+    }
+    
+    //make the object and append it to currently selected project
+    const newProject = new TodoList(projectTitle, [], false );
+
+    if (!projectNameAvailable(newProject)){
+        alert("Title already taken");
+        return
+
+    }
+    addNewProject(newProject);
+    fillProjectList();
+
+    // update storage
+    updateStorage(projects);
+
+
+    projectPopUpForm.classList.add("hidden");
+    openProjectForm.classList.remove("hidden");
+
+
+});
+
+cancelProjectBtn.addEventListener("click", (e)=>{
+
+    e.preventDefault();
+    //     const popupForm = document.querySelector(".form-popup");
+
+
+    //     popupForm.style.display = "none";
+    projectPopUpForm.classList.add("hidden");
+    //     document.getElementById("myForm").reset();
+    document.getElementById("projectForm").reset();
+    openProjectForm.classList.remove("hidden");
+
+})
+
+function fillProjectList(){
+    cleanList(projectList);
+
+    for (let proj of projects){
+        
+        const projectItem = document.createElement("li");
+        projectItem.classList.add("project");
+        projectItem.setAttribute("id", "project");
+        projectItem.textContent = proj.projectName;
+
+        // how to deal with the activeProject
+        if (proj.projectActive){
+            projectItem.classList.add("active");
+        }
+
+        projectList.appendChild(projectItem);
+
+
+
+    }
+
+    projectInstancesHTMLref = document.querySelectorAll("#project");
+    projectToggle();
+
+}
+
+function addNewProject(projectObject){
+    //for adding a new project to the project list, fully changing the DOM and all
+
+    //check if projectName is not already used
+    if (projectNameAvailable(projectObject)){
+        // add new project to projects list
+        projects.push(projectObject);
+
+        //clear the current projectList
+        cleanList(projectList);
+    
+
+        fillProjectList();
+
+    }
+}
+
+function projectNameAvailable(projectObject){
+    //put all current projectnames in a list
+    let currentProjectNames = [];
+    for (let proj of projects){
+        currentProjectNames.push(proj.projectName);
+    }
+
+    if (currentProjectNames.includes(projectObject.projectName)){
+        // already a project with this name
+        // projectNameTaken();
+        return false
+    }
+
+    return true
+
+}
+
+
+
+
+//task things
 function projectObjectInHtml(){
     const proj = getActiveProject();
     const currentProjectList = proj.projectArray;
@@ -60,8 +195,6 @@ function deactivateAllProjects(){
     }
 }
 
-
-
 function acceptTaskTitleEdit(element, inputElement, accept, currentTitle){
     const newTaskTitle = inputElement.value;
 
@@ -92,6 +225,7 @@ function acceptTaskTitleEdit(element, inputElement, accept, currentTitle){
     updateStorage(projects);
 
 }
+
 function taskBtnEvents(){
     //new HTML references
     const taskTitleBtnAll = document.querySelectorAll(".task-title-btn");
@@ -166,49 +300,54 @@ function taskBtnEvents(){
     });
 }
 
-projectInstancesHTMLref.forEach((element)=>{
-    element.addEventListener("click",(e)=>{
-        let clickedProject = e.target;
+function projectToggle(){
+    projectInstancesHTMLref.forEach((element)=>{
+        // if project is clicked, turn to that project
+        element.addEventListener("click",(e)=>{
+            let clickedProject = e.target;
 
-        //if the clickedProject isn't already active
-        if ( !clickedProject.classList.contains("active") ){
+            //if the clickedProject isn't already active
+            if ( !clickedProject.classList.contains("active") ){
 
-            for ( let projHTML of projectInstancesHTMLref ){
+                for ( let projHTML of projectInstancesHTMLref ){
 
-                if (projHTML.classList.contains("active")){
+                    if (projHTML.classList.contains("active")){
 
-                    //make sure no active projects anywhere
-                    deactivateAllProjects();
-                    projHTML.classList.remove("active");
+                        //make sure no active projects anywhere
+                        deactivateAllProjects();
+                        projHTML.classList.remove("active");
+                    }
+
                 }
 
+                const clickedProjectName = clickedProject.textContent;
+                for (let proj of projects){
+                    if (proj.projectName == clickedProjectName){
+                        // change made 
+                        proj.projectActive = true;
+
+                        //change updated in array and in activeProject object
+                        updateProjectInArray(proj);
+                    };
+                }
+
+
+                clickedProject.classList.add("active");
+                selectedProject = clickedProject;
+                projectObjectInHtml();
+
+                //task buttons should be interact-able 
+                taskBtnEvents();
+                
+                console.log("Change of project: ", activeProject);
             }
 
-            const clickedProjectName = clickedProject.textContent;
-            for (let proj of projects){
-                if (proj.projectName == clickedProjectName){
-                    // change made 
-                    proj.projectActive = true;
-
-                    //change updated in array and in activeProject object
-                    updateProjectInArray(proj);
-                };
-            }
-
-
-            clickedProject.classList.add("active");
-            selectedProject = clickedProject;
-            projectObjectInHtml();
-
-            //task buttons should be interact-able 
-            taskBtnEvents();
             
-            console.log("Change of project: ", activeProject);
-        }
-
-        
+        });
     });
-});
+}
+
+projectToggle()
 
 
 taskFormSubmitBtn.addEventListener('click', (e)=>{
