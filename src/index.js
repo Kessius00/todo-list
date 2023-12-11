@@ -18,8 +18,6 @@ const cancelProjectBtn = document.querySelector(".CancelProjectBtn");
 
 
 
-
-
 //Make project list, containing project objects
 let homeProjectList = new TodoList("Home", [], true);
 let workProjectList = new TodoList("Work", [], false);
@@ -32,7 +30,7 @@ console.log("current project: ",activeProject);
 
 //projectBtn changes
 const openProjectForm = document.querySelector("button.addNewProject");
-console.log(" heurhfeh",projectInstancesHTMLref);
+// console.log(" heurhfeh",projectInstancesHTMLref);
 
 
 openProjectForm.addEventListener("click", ()=>{
@@ -54,7 +52,7 @@ enterProjectBtn.addEventListener("click",(e)=>{
     console.log(projectTitle);
     // validation check for if title and date are empty
     if (projectTitle ==""){
-        alert("A title of the task must be written!");
+        alert("A title of the project must be written!");
         return
     }
     
@@ -91,7 +89,7 @@ cancelProjectBtn.addEventListener("click", (e)=>{
     document.getElementById("projectForm").reset();
     openProjectForm.classList.remove("hidden");
 
-})
+});
 
 function fillProjectList(){
     cleanList(projectList);
@@ -288,19 +286,62 @@ function taskBtnEvents(){
     taskDateBtnAll.forEach((element)=>{
         element.addEventListener("click", ()=>{
             // make date button dissapear
+            const taskDateBtn = element;
+            taskDateBtn.classList.add("hidden");
 
-            //make edit date values to date button values
+            const acceptDateBtn = element.parentElement.children[0];
+            const inputDate = element.parentElement.children[2];
+            
+            acceptDateBtn.classList.remove("hidden");
 
-            //make edit date input appear
+            inputDate.value = taskDateBtn.textContent;
+            inputDate.classList.remove("hidden");
+            inputDate.focus();
 
-            //make accept button appear
 
-            //
+            // if user focuses on anything other than inputElement
+            inputDate.addEventListener("focusout", (e)=>{
+                taskDateBtn.textContent = inputDate.value;
+
+                acceptDateBtn.classList.add("hidden");
+                inputDate.classList.add("hidden");
+                taskDateBtn.classList.remove("hidden");
+
+                
+                // acceptTaskDate(element, inputDate.value);
+
+                // no update storage yet
+                
+            });
+
+            // if enter is pressed
+            inputDate.addEventListener("keydown", (e)=>{
+                if (e.key=== "Enter"){
+                    taskDateBtn.textContent = inputDate.value;
+
+                    acceptDateBtn.classList.add("hidden");
+                    inputDate.classList.add("hidden");
+                    taskDateBtn.classList.remove("hidden");
+                        
+                    // NO update storage yet
+                }
+            });
+
+            
+
+
+            
         });
     });
 }
 
+// function addTaskDate(el, newVal){
+    
+// }
+
 function projectToggle(){
+    //enables toggling between projects
+
     projectInstancesHTMLref.forEach((element)=>{
         // if project is clicked, turn to that project
         element.addEventListener("click",(e)=>{
@@ -341,13 +382,12 @@ function projectToggle(){
                 
                 console.log("Change of project: ", activeProject);
             }
-
-            
         });
     });
 }
 
-projectToggle()
+//enables toggling between projects
+projectToggle();
 
 
 taskFormSubmitBtn.addEventListener('click', (e)=>{
