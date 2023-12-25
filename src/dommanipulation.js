@@ -7,6 +7,8 @@ export function cleanList(toDos){
 
 
 
+
+
 export function taskObjectToListElement(taskObject){
     const priority = taskObject.priority;
     const dueDate = taskObject.dueDate;

@@ -1,9 +1,5 @@
 # todo-list
 
-- date editable 
-
-- project add button opens the form et cetera
-
 - delete project?
 
-- change task css
+- change task and project form in css

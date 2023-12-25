@@ -185,6 +185,9 @@ function updateProjectInArray(updatedProject, projectArray=projects){
             activeProject = updatedProject;
         }
     }
+    updateStorage(projectArray);
+
+
 }
 
 function deactivateAllProjects(){
@@ -205,7 +208,7 @@ function acceptTaskTitleEdit(element, inputElement, accept, currentTitle){
     inputElement.classList.add("hidden");
 
     // update the projects array with objects to give new names
-    let updatedProject = activeProject
+    let updatedProject = activeProject;
     for (let task of updatedProject.projectArray){
         if (task.title == currentTitle){
             //get place of the task you are changing
@@ -223,6 +226,8 @@ function acceptTaskTitleEdit(element, inputElement, accept, currentTitle){
     updateStorage(projects);
 
 }
+
+
 
 function taskBtnEvents(){
     //new HTML references
@@ -294,36 +299,24 @@ function taskBtnEvents(){
             
             acceptDateBtn.classList.remove("hidden");
 
-            inputDate.value = taskDateBtn.textContent;
+            const currentDate = taskDateBtn.textContent;
+            inputDate.value = currentDate;
             inputDate.classList.remove("hidden");
             inputDate.focus();
 
 
             // if user focuses on anything other than inputElement
             inputDate.addEventListener("focusout", (e)=>{
-                taskDateBtn.textContent = inputDate.value;
 
-                acceptDateBtn.classList.add("hidden");
-                inputDate.classList.add("hidden");
-                taskDateBtn.classList.remove("hidden");
+                acceptTaskDateEdit(taskDateBtn, acceptDateBtn, inputDate, activeProject, currentDate);
 
-                
-                // acceptTaskDate(element, inputDate.value);
-
-                // no update storage yet
-                
             });
 
             // if enter is pressed
             inputDate.addEventListener("keydown", (e)=>{
                 if (e.key=== "Enter"){
-                    taskDateBtn.textContent = inputDate.value;
-
-                    acceptDateBtn.classList.add("hidden");
-                    inputDate.classList.add("hidden");
-                    taskDateBtn.classList.remove("hidden");
-                        
-                    // NO update storage yet
+                    acceptTaskDateEdit(taskDateBtn, acceptDateBtn, inputDate, activeProject, currentDate);
+                    
                 }
             });
 
@@ -335,9 +328,31 @@ function taskBtnEvents(){
     });
 }
 
-// function addTaskDate(el, newVal){
-    
-// }
+function acceptTaskDateEdit(taskDateBtn, acceptDateBtn, inputDate, activeProject, currentDate){
+    const newDate = inputDate.value;
+    taskDateBtn.textContent = newDate;
+
+    acceptDateBtn.classList.add("hidden");
+    inputDate.classList.add("hidden");
+    taskDateBtn.classList.remove("hidden");
+
+
+    // update the projects array with objects to give new names
+    let updatedProject = activeProject;
+    for (let task of updatedProject.projectArray){
+        if (task.dueDate == currentDate){
+            //get place of the task you are changing
+            const index = updatedProject.projectArray.indexOf(task);
+            //change task title
+            task.dueDate = newDate;
+            //make new task into the updatedProject array
+            updatedProject.projectArray[index] = task;
+        }
+    }
+    //make the title change update in the projects list and in the activeProject variable
+    updateProjectInArray(updatedProject);
+}
+
 
 function projectToggle(){
     //enables toggling between projects

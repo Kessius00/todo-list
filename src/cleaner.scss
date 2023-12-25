@@ -22,12 +22,42 @@ $whiter-grey: rgba(0,0,0,0.3);
     font-weight: 700;
 }
 
+
 .task{
-    padding: 5px;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: #000000 1px solid;
+    // border: #000000 1px solid;
+
+}
+.task-start::before{
+    font-size: 2em;
+    content: " - ";
+}
+
+
+
+
+.task-title-input, .task-date-input{
+    font-size: 1.7em;
+
+}
+
+.accept-date-btn{
+    margin-right: 5px;
+    background-color: white;
+    font-size: 1.7em;
+    border-radius: 5px;
+    border: #000000 2px solid;
+}
+
+.accept-title-btn{
+    margin-left: 5px;
+    background-color: white;
+    font-size: 1.7em;
+    border-radius: 5px;
+    border: #000000 2px solid;
 }
 
 .task-start{
@@ -35,6 +65,19 @@ $whiter-grey: rgba(0,0,0,0.3);
     align-items: center;
     gap: 10px;
 }
+
+.task-title-btn, .task-date-btn{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.7em;
+    background-color: white;
+    border: none;
+
+}
+
+.task-title-btn:hover, .task-date-btn:hover{
+    background-color: $whiter-grey;
+}
+
 
 //NEW TASKS ------------------------------
 
@@ -141,10 +184,7 @@ button.addNewTask{
     padding: 30px;
 }
 
-.task-date{
-    font-weight: 100;
-    font-size: 0.3em;
-}
+
 
 #content{
     height: 100vh;
@@ -255,12 +295,44 @@ button.addNewTask{
     display: block;
     position: absolute;
     width: 100%;
-    height: 200px;
-    background-color: blue;
+    // height: 200px;
     bottom: 0;
+
+    border: #000000 1px solid;
+
+
 }
 
+#projectForm{
+    height: 100%;
+    width: auto;
+    padding: 10px;
 
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    font-size: 1.2em;
+}
+
+#titleProject{
+    // height:30px;
+    font-size: 1.2em;
+    width: 80%;
+}
+
+.EnterProjectBtn:hover, .CancelProjectBtn:hover{
+    background-color: $whiter-grey;
+}
+
+.EnterProjectBtn, .CancelProjectBtn{
+    background-color: white;
+    border: #000000 1px solid;
+
+    font-size: 1.3em;
+
+    border-radius: 4px;
+}
 
 .form-popup{
     // display: none;
